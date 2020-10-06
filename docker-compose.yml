@@ -1,0 +1,36 @@
+version: '2'
+
+volumes:
+  go-api-database:
+    external: true
+
+networks:
+  go-network:
+    external: true
+
+services:
+  go-api-database:
+    image: mysql:5.7
+    volumes:
+      - go-api-database:/var/lib/mysql
+    ports:
+      - "33069:3306"
+    environment:
+      - "MYSQL_DATABASE=database"
+      - "MYSQL_USER=user"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
+    networks:
+      - go-network
+
+  go-service:
+    image: golang:1.6.1-alpine
+    container_name: go-service
+    working_dir: /go/src/go-with-compose
+    command: go run main.go
+    volumes:
+      - .:/go/src/go-with-compose
+    ports:
+      - "8080:80"
+    networks:
+      - go-network
