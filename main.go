@@ -36,6 +36,7 @@ func pageMain(w http.ResponseWriter, r *http.Request) {
 }
 
 func listarLivros(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
 	encoder.Encode(Livros)
 }
