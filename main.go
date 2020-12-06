@@ -7,7 +7,8 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 type Livro struct {
@@ -38,39 +39,25 @@ func pageMain(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Bem Vindo")
 }
 
-func rotearLivros(w http.ResponseWriter, r *http.Request) {
-	urlPartes := strings.Split(r.URL.Path, "/")
-
-	if len(urlPartes) > 3 {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	if len(urlPartes) == 2 {
-		switch r.Method {
-		case "GET":
-			listarLivros(w, r)
-		case "POST":
-			cadastrarLivro(w, r)
-		}
-	} else if len(urlPartes) == 3 {
-		switch r.Method {
-		case "GET":
-			buscarLivro(w, r)
-		case "PUT":
-			modificarLivro(w, r)
-		case "DELETE":
-			excluirLivro(w, r)
-		}
-	} else {
-		w.WriteHeader(http.StatusNotFound)
-	}
-}
-
 func listarLivros(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Add("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
 	encoder.Encode(Livros)
+}
+
+func buscarLivro(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	vars := mux.Vars(r)
+	id, _ := strconv.Atoi(vars["id"])
+
+	for _, livro := range Livros {
+		if livro.Id == id {
+			json.NewEncoder(w).Encode(livro)
+			break
+		}
+	}
+
+	w.WriteHeader(http.StatusNotFound)
 }
 
 func cadastrarLivro(w http.ResponseWriter, r *http.Request) {
@@ -92,30 +79,15 @@ func cadastrarLivro(w http.ResponseWriter, r *http.Request) {
 	encoder.Encode(novoLivro)
 }
 
-func buscarLivro(w http.ResponseWriter, r *http.Request) {
-
-	partes := strings.Split(r.URL.Path, "/")
-
-	id, _ := strconv.Atoi(partes[2])
-
-	for _, livro := range Livros {
-		if livro.Id == id {
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(livro)
-			break
-		}
-	}
-
-	w.WriteHeader(http.StatusNotFound)
-}
-
 func modificarLivro(w http.ResponseWriter, r *http.Request) {
-	var LivroModificado Livro
-	partes := strings.Split(r.URL.Path, "/")
-	id, err := strconv.Atoi(partes[2])
+	w.Header().Set("Content-Type", "application/json")
+
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
 
 	corpo, err2 := ioutil.ReadAll(r.Body)
 
+	var LivroModificado Livro
 	err3 := json.Unmarshal(corpo, &LivroModificado)
 
 	if err != nil || err2 != nil || err3 != nil {
@@ -138,16 +110,14 @@ func modificarLivro(w http.ResponseWriter, r *http.Request) {
 	LivroModificado.Id = id
 	Livros[indiceDoLivro] = LivroModificado
 
-	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(LivroModificado)
 }
 
 func excluirLivro(w http.ResponseWriter, r *http.Request) {
-	partes := strings.Split(r.URL.Path, "/")
+	vars := mux.Vars(r)
+	id, _ := strconv.Atoi(vars["id"])
 
-	id, _ := strconv.Atoi(partes[2])
 	indeceLivro := -1
-
 	for indece, livro := range Livros {
 		if livro.Id == id {
 			indeceLivro = indece
@@ -167,20 +137,24 @@ func excluirLivro(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func confRoutes() {
-	http.HandleFunc("/", pageMain)
-	http.HandleFunc("/livros", rotearLivros)
-	http.HandleFunc("/livros/", rotearLivros)
+func confRoutes(router *mux.Router) {
+	router.HandleFunc("/", pageMain).Methods("GET")
+	router.HandleFunc("/livros", listarLivros).Methods("GET")
+	router.HandleFunc("/livros/{id}", buscarLivro).Methods("GET")
+	router.HandleFunc("/livros", cadastrarLivro).Methods("POST")
+	router.HandleFunc("/livros/{id}", modificarLivro).Methods("PUT")
+	router.HandleFunc("/livros/{id}", excluirLivro).Methods("DELETE")
 }
 
 func confService() {
+	router := mux.NewRouter().StrictSlash(true)
 	port := "1337"
 
-	confRoutes()
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	confRoutes(router)
+	fmt.Println("Servidor esta rodando")
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
 
 func main() {
-	fmt.Println("Servidor esta rodando")
 	confService()
 }
