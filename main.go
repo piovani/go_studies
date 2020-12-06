@@ -40,13 +40,11 @@ func pageMain(w http.ResponseWriter, r *http.Request) {
 }
 
 func listarLivros(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
 	encoder.Encode(Livros)
 }
 
 func buscarLivro(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	id, _ := strconv.Atoi(vars["id"])
 
@@ -61,7 +59,6 @@ func buscarLivro(w http.ResponseWriter, r *http.Request) {
 }
 
 func cadastrarLivro(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	encoder := json.NewEncoder(w)
 
@@ -80,8 +77,6 @@ func cadastrarLivro(w http.ResponseWriter, r *http.Request) {
 }
 
 func modificarLivro(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 
@@ -146,8 +141,19 @@ func confRoutes(router *mux.Router) {
 	router.HandleFunc("/livros/{id}", excluirLivro).Methods("DELETE")
 }
 
+func jsonMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		log.Println(r.RequestURI)
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func confService() {
 	router := mux.NewRouter().StrictSlash(true)
+	router.Use(jsonMiddleware)
 	port := "1337"
 
 	confRoutes(router)
