@@ -54,10 +54,11 @@ func rotearLivros(w http.ResponseWriter, r *http.Request) {
 			cadastrarLivro(w, r)
 		}
 	} else if len(urlPartes) == 3 {
-
 		switch r.Method {
 		case "GET":
 			buscarLivro(w, r)
+		case "PUT":
+			modificarLivro(w, r)
 		case "DELETE":
 			excluirLivro(w, r)
 		}
@@ -108,6 +109,39 @@ func buscarLivro(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 }
 
+func modificarLivro(w http.ResponseWriter, r *http.Request) {
+	var LivroModificado Livro
+	partes := strings.Split(r.URL.Path, "/")
+	id, err := strconv.Atoi(partes[2])
+
+	corpo, err2 := ioutil.ReadAll(r.Body)
+
+	err3 := json.Unmarshal(corpo, &LivroModificado)
+
+	if err != nil || err2 != nil || err3 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	indiceDoLivro := -1
+	for indice, livro := range Livros {
+		if livro.Id == id {
+			indiceDoLivro = indice
+			break
+		}
+	}
+
+	if indiceDoLivro < 0 {
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	LivroModificado.Id = id
+	Livros[indiceDoLivro] = LivroModificado
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(LivroModificado)
+}
+
 func excluirLivro(w http.ResponseWriter, r *http.Request) {
 	partes := strings.Split(r.URL.Path, "/")
 
@@ -130,7 +164,7 @@ func excluirLivro(w http.ResponseWriter, r *http.Request) {
 
 	Livros = append(ladoEsquerdo, ladoDireito...)
 
-	w.WriteHeader(http.StatusAccepted)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func confRoutes() {
