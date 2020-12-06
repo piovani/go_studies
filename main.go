@@ -181,6 +181,6 @@ func confService() {
 }
 
 func main() {
+	fmt.Println("Servidor esta rodando")
 	confService()
-	fmt.Println("Servidor esta rodando na porta")
 }
