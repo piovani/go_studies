@@ -39,11 +39,30 @@ func pageMain(w http.ResponseWriter, r *http.Request) {
 }
 
 func rotearLivros(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "GET":
-		listarLivros(w, r)
-	case "POST":
-		cadastrarLivro(w, r)
+	urlPartes := strings.Split(r.URL.Path, "/")
+
+	if len(urlPartes) > 3 {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	if len(urlPartes) == 2 {
+		switch r.Method {
+		case "GET":
+			listarLivros(w, r)
+		case "POST":
+			cadastrarLivro(w, r)
+		}
+	} else if len(urlPartes) == 3 {
+
+		switch r.Method {
+		case "GET":
+			buscarLivro(w, r)
+		case "DELETE":
+			excluirLivro(w, r)
+		}
+	} else {
+		w.WriteHeader(http.StatusNotFound)
 	}
 }
 
@@ -76,11 +95,6 @@ func buscarLivro(w http.ResponseWriter, r *http.Request) {
 
 	partes := strings.Split(r.URL.Path, "/")
 
-	if len(partes) > 3 {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
-
 	id, _ := strconv.Atoi(partes[2])
 
 	for _, livro := range Livros {
@@ -94,10 +108,35 @@ func buscarLivro(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 }
 
+func excluirLivro(w http.ResponseWriter, r *http.Request) {
+	partes := strings.Split(r.URL.Path, "/")
+
+	id, _ := strconv.Atoi(partes[2])
+	indeceLivro := -1
+
+	for indece, livro := range Livros {
+		if livro.Id == id {
+			indeceLivro = indece
+			break
+		}
+	}
+
+	if indeceLivro < 0 {
+		w.WriteHeader(http.StatusNotFound)
+	}
+
+	ladoEsquerdo := Livros[0:indeceLivro]
+	ladoDireito := Livros[indeceLivro+1 : len(Livros)]
+
+	Livros = append(ladoEsquerdo, ladoDireito...)
+
+	w.WriteHeader(http.StatusAccepted)
+}
+
 func confRoutes() {
 	http.HandleFunc("/", pageMain)
 	http.HandleFunc("/livros", rotearLivros)
-	http.HandleFunc("/livros/", buscarLivro)
+	http.HandleFunc("/livros/", rotearLivros)
 }
 
 func confService() {
