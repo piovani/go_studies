@@ -10,7 +10,7 @@ networks:
 
 services:
   go-api-database:
-    image: mysql:5.7
+    image: mysql:8
     volumes:
       - go-api-database:/var/lib/mysql
     ports:
@@ -23,14 +23,14 @@ services:
     networks:
       - go-network
 
-  go-service:
-    image: golang:1.6.1-alpine
-    container_name: go-service
-    working_dir: /go/src/go-with-compose
-    command: go run main.go
-    volumes:
-      - .:/go/src/go-with-compose
-    ports:
-      - "8080:80"
-    networks:
-      - go-network
+  # go-service:
+  #   image: golang:1.6.1-alpine
+  #   container_name: go-service
+  #   working_dir: /go/src/go-with-compose
+  #   command: go run main.go
+  #   volumes:
+  #     - .:/go/src/go-with-compose
+  #   ports:
+  #     - "8080:80"
+  #   networks:
+  #     - go-network
