@@ -1,11 +1,7 @@
-version: '2'
+version: '3.3'
 
 volumes:
   go-api-database:
-    external: true
-
-networks:
-  go-network:
     external: true
 
 services:
@@ -20,8 +16,6 @@ services:
       - "MYSQL_USER=user"
       - "MYSQL_PASSWORD=secret"
       - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
-    networks:
-      - go-network
 
   # go-service:
   #   image: golang:1.6.1-alpine

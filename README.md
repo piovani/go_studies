@@ -42,3 +42,6 @@ go_api
  - [ ] Rota para acessar todos os pedidos realizados pelo cliente.
  - [ ] Teste Unitario para os Services do Sistema
  - [ ] Teste Automatizado para todas as Rotas do Sistema
+
+
+ Obs: Deixar o Go executando: ``` CompileDaemon ```
