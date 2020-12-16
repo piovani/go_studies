@@ -52,8 +52,23 @@ func listarLivros(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err.Error())
 	}
 
+	var livros []Livro = make([]Livro, 0)
+	for registros.Next() {
+		var livro Livro
+		errScan := registros.Scan(&livro.Id, &livro.Autor, &livro.Titulo)
+
+		if errScan != nil {
+			log.Fatal(errScan.Error())
+			continue
+		}
+
+		livros = append(livros, livro)
+	}
+
+	registros.Close()
+
 	encoder := json.NewEncoder(w)
-	encoder.Encode(Livros)
+	encoder.Encode(livros)
 }
 
 func buscarLivro(w http.ResponseWriter, r *http.Request) {
