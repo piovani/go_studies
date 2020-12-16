@@ -12,9 +12,9 @@ services:
     ports:
       - "33069:3306"
     environment:
-      - "MYSQL_DATABASE=database"
-      - "MYSQL_USER=user"
-      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_DATABASE=${DB_DATABASE}"
+      - "MYSQL_USER=${DB_USER}"
+      - "MYSQL_PASSWORD=${DB_PASSWORD}"
       - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
 
   # go-service:
