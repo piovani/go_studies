@@ -45,3 +45,31 @@ go_api
 
 
  Obs: Deixar o Go executando: ``` CompileDaemon ```
+
+ # Set up the project
+
+ ## First copy the environment variables file
+
+ ``` 
+ cp .env.example .env 
+ ```
+
+ ## Upload the docker containers on your machine
+
+ ```
+ docker-compose up -d
+ ```
+
+ <b>Note:</b> 
+ 1) the docker and docker-compose are required to be installed on your machine
+ 2) versions used:
+      * Docker: 19.03.8
+      * Docker-compose: 1.25.0
+ 3) try to use the same version or higher
+
+ # How to teste
+
+## In the project repository we have the collection of Postman requisitions, just import it into your Postman that will have all the requisition routes ready
+
+<b>file name:</b> `API.postman_collection.json`
+
