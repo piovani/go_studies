@@ -32,6 +32,7 @@ go_api
     - Quantidade
     - Oreço Unitário
     - Total
+ - [ ] Comando de Migrate para iniciar o projeto
  - [ ] Autenticação JWT
  - [ ] Apenas Produtos com Status ativo podem ser add ao Pedido
  - [ ] Apenas Produtos com Estoque disponivel podem ser add ao Pedido
