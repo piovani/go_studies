@@ -1,14 +1,18 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 type Livro struct {
@@ -35,11 +39,19 @@ var Livros []Livro = []Livro{
 	},
 }
 
+var db *sql.DB
+
 func pageMain(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Bem Vindo")
 }
 
 func listarLivros(w http.ResponseWriter, r *http.Request) {
+	registros, err := db.Query("SELECT id, autor, titulo FROM livros")
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	encoder := json.NewEncoder(w)
 	encoder.Encode(Livros)
 }
@@ -161,6 +173,28 @@ func confService() {
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
 
+func configurarBancoDeDados() {
+	var err error
+	db, err = sql.Open(
+		os.Getenv("DB_CONNECTION"),
+		fmt.Sprintf("%s:%s@tcp(%s)/%s",
+			os.Getenv("DB_USER"),
+			os.Getenv("DB_PASSWORD"),
+			os.Getenv("DB_HOST"),
+			os.Getenv("DB_DATABASE")))
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}
+
 func main() {
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	configurarBancoDeDados()
 	confService()
 }
