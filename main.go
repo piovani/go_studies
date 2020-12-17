@@ -75,13 +75,16 @@ func buscarLivro(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, _ := strconv.Atoi(vars["id"])
 
-	for _, livro := range Livros {
-		if livro.Id == id {
-			json.NewEncoder(w).Encode(livro)
-			break
-		}
+	registros := db.QueryRow("SELECT id, autor, titulo FROM livros WHERE id = ?", id)
+	var livro Livro
+
+	err := registros.Scan(&livro.Id, &livro.Autor, &livro.Titulo)
+
+	if err != nil {
+		log.Println(err.Error())
 	}
 
+	json.NewEncoder(w).Encode(livro)
 	w.WriteHeader(http.StatusNotFound)
 }
 
