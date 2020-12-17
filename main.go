@@ -151,24 +151,14 @@ func excluirLivro(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, _ := strconv.Atoi(vars["id"])
 
-	indeceLivro := -1
-	for indece, livro := range Livros {
-		if livro.Id == id {
-			indeceLivro = indece
-			break
-		}
-	}
+	registro := db.QueryRow("SELECT id FROM livros WHERE id = ?", id)
+	var idLivro int
+	registro.Scan(idLivro)
 
-	if indeceLivro < 0 {
-		w.WriteHeader(http.StatusNotFound)
-	}
-
-	ladoEsquerdo := Livros[0:indeceLivro]
-	ladoDireito := Livros[indeceLivro+1 : len(Livros)]
-
-	Livros = append(ladoEsquerdo, ladoDireito...)
+	db.Exec("DELETE FROM livros WHERE id = ?", id)
 
 	w.WriteHeader(http.StatusNoContent)
+	return
 }
 
 func confRoutes(router *mux.Router) {
