@@ -81,7 +81,9 @@ func buscarLivro(w http.ResponseWriter, r *http.Request) {
 	err := registros.Scan(&livro.Id, &livro.Autor, &livro.Titulo)
 
 	if err != nil {
-		log.Println(err.Error())
+		log.Println("Livro não encontrado, erro: " + err.Error())
+		w.WriteHeader(http.StatusNotFound)
+		return
 	}
 
 	json.NewEncoder(w).Encode(livro)
@@ -120,20 +122,30 @@ func modificarLivro(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	indiceDoLivro := -1
-	for indice, livro := range Livros {
-		if livro.Id == id {
-			indiceDoLivro = indice
-			break
-		}
-	}
+	registro := db.QueryRow("SELECT id, autor, titulo FROM livros WHERE id = ?", id)
+	var livro Livro
 
-	if indiceDoLivro < 0 {
+	err4 := registro.Scan(&livro.Id, &livro.Autor, &livro.Titulo)
+
+	if err4 != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	LivroModificado.Id = id
-	Livros[indiceDoLivro] = LivroModificado
+
+	_, err5 := db.Exec("UPDATE livros SET autor = ?, titulo = ? WHERE id = ?",
+		LivroModificado.Autor,
+		LivroModificado.Titulo,
+		id)
+
+	if err5 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// LivroModificado.Id = id
+	// Livros[indiceDoLivro] = LivroModificado
 
 	json.NewEncoder(w).Encode(LivroModificado)
 }
