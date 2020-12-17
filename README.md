@@ -46,7 +46,7 @@ go_api
  - [ ] Utilizar GraphQL na aplicação
 
 
- Obs: Deixar o Go executando: ``` CompileDaemon ```
+ Obs: Deixar o Go executando: ``` CompileDaemon -command="go run go_api" ```
 
  # Set up the project
 

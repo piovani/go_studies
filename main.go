@@ -144,9 +144,6 @@ func modificarLivro(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// LivroModificado.Id = id
-	// Livros[indiceDoLivro] = LivroModificado
-
 	json.NewEncoder(w).Encode(LivroModificado)
 }
 
