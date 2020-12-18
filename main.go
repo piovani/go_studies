@@ -21,24 +21,6 @@ type Livro struct {
 	Autor  string `json:"autor"`
 }
 
-var Livros []Livro = []Livro{
-	Livro{
-		Id:     1,
-		Titulo: "O Guarani",
-		Autor:  "José de Alencar",
-	},
-	Livro{
-		Id:     2,
-		Titulo: "Cazuza",
-		Autor:  "Viriato Correia",
-	},
-	Livro{
-		Id:     3,
-		Titulo: "Dom Casmurro",
-		Autor:  "Machado de Assis",
-	},
-}
-
 var db *sql.DB
 
 func pageMain(w http.ResponseWriter, r *http.Request) {
