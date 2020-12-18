@@ -93,17 +93,20 @@ func buscarLivro(w http.ResponseWriter, r *http.Request) {
 func cadastrarLivro(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	encoder := json.NewEncoder(w)
-
-	body, err := ioutil.ReadAll(r.Body)
-
-	if err != nil {
-		log.Fatal(encoder.Encode("DEU RUIM IRMAO"))
-	}
+	body, _ := ioutil.ReadAll(r.Body)
 
 	var novoLivro Livro
 	json.Unmarshal(body, &novoLivro)
-	novoLivro.Id = len(Livros) + 1
-	Livros = append(Livros, novoLivro)
+
+	if len(novoLivro.Autor) == 0 || len(novoLivro.Titulo) == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	result, _ := db.Exec("INSERT INTO livros (autor, titulo) VALUES (?, ?)", novoLivro.Autor, novoLivro.Titulo)
+
+	novoId, _ := result.LastInsertId()
+	novoLivro.Id = int(novoId)
 
 	encoder.Encode(novoLivro)
 }
