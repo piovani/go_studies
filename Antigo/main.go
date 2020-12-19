@@ -190,7 +190,7 @@ func configurarBancoDeDados() {
 	}
 }
 
-func main() {
+func Emain() {
 	err := godotenv.Load()
 
 	if err != nil {
