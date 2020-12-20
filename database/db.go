@@ -28,6 +28,8 @@ func Connection() *gorm.DB {
 		log.Fatalf("Error during connection: %v", err)
 	}
 
+	// defer db.Close()
+
 	db.AutoMigrate(domain.Livro{})
 
 	return db
