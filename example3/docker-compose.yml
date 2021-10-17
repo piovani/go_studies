@@ -1,0 +1,27 @@
+version: '3.8'
+
+volumes:
+    go-api-exemple-3-db:
+        external: true
+
+networks:
+    go-api-exemple-3-networks:
+        external: true
+
+services:
+    go-api-exemple-3-db:
+        container_name: go-api-exemple-3-db
+        image: mysql:5.7
+        volumes:
+            - go-api-exemple-3-db:/var/lib/mysql
+        ports:
+            - 33060:3306
+        environment:
+            - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
+            - "MYSQL_DATABASE=database"
+            - "MYSQL_USER=user"
+            - "MYSQL_PASSWORD=secret"
+        networks:
+            - go-api-exemple-3-networks
+
+    
