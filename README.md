@@ -4,7 +4,7 @@ This project is a collection of api types, using different packages and differen
 
 `Note`
 ```
-    The examples 1 and 2 do not advise looking, as they are more beginners and messier. I left them more as history.
+The examples 1 and 2 do not advise looking, as they are more beginners and messier. I left them more as history.
 ```
 
 
