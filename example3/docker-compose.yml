@@ -15,7 +15,7 @@ services:
         volumes:
             - go-api-exemple-3-db:/var/lib/mysql
         ports:
-            - 33061:3306
+            - ${DB_PORT}:3306
         environment:
             - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
             - "MYSQL_DATABASE=database"
@@ -23,5 +23,15 @@ services:
             - "MYSQL_PASSWORD=secret"
         networks:
             - go-api-exemple-3-networks
+
+    go-api-exemple-3-api:
+        container_name: go-api-exemple-3-api
+        build: ./docker/go
+        volumes:
+            - .:/go/src/
+        ports:
+            - ${API_PORT}:${API_PORT}
+        depends_on:
+            - "go-api-exemple-3-db"
 
     
