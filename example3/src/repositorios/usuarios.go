@@ -38,7 +38,7 @@ func (repositorio Usuarios) Criar(usuario modelos.Usuario) (uint64, error) {
 }
 
 func (repositorio Usuarios) Buscar(nomeOuNick string) ([]modelos.Usuario, error) {
-	nomeOuNick = fmt.Sprint("%%%s%%", nomeOuNick)
+	nomeOuNick = fmt.Sprintf("%%%s%%", nomeOuNick)
 
 	linhas, erro := repositorio.db.Query(
 		"SELECT id, nome, nick, email FROM usuarios WHERE nome LIKE ? OR nick LIKE ?",
