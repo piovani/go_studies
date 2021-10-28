@@ -138,8 +138,7 @@ func AtualizarUsuario(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	println(usuarioID, corpoRequisicao)
-
+	respostas.JSON(w, http.StatusOK, nil)
 }
 
 func DeletarUsuario(w http.ResponseWriter, r *http.Request) {
