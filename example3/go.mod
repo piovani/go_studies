@@ -11,5 +11,6 @@ require (
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/mattn/go-shellwords v1.0.12 // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	gopkg.in/urfave/cli.v1 v1.20.0 // indirect
 )
