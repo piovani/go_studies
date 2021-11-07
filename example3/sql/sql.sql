@@ -23,6 +23,18 @@ CREATE TABLE seguidores (
 	PRIMARY KEY(usuario_id, seguidor_id)
 ) ENGINE=INNODB;
 
+CREATE TABLE publicacoes (
+    id int auto_increment primary key,
+    titulo varchar(50) not null,
+    conteudo varchar(300) not null,
+
+    autor_id int not null,
+    FOREIGN KEY (autor_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+
+    curtidas int default 0,
+    criado_em timestamp default current_timestamp
+) ENGINE=INNODB
+
 INSERT INTO usuarios (nome, nick, email, senha) VALUES 
 ("Usuario 1", "usuario_1", "usuario1@email.com", "$2a$10$wPd3TvVbIyidBJJXy65t1em2sixC7pz/u3G7xeaSkFQGcQB79fafK"),
 ("Usuario 2", "usuario_2", "usuario2@email.com", "$2a$10$wPd3TvVbIyidBJJXy65t1em2sixC7pz/u3G7xeaSkFQGcQB79fafK"),
