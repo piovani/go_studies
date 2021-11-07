@@ -22,3 +22,5 @@ This application aims to simulate a social network, only texts
 
 ## installation instructions
 
+
+## How To Test
