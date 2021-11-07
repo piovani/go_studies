@@ -16,7 +16,6 @@ type Rota struct {
 }
 
 func Configurar(r *mux.Router) *mux.Router {
-
 	rotas := getRotas()
 
 	for _, rota := range rotas {
@@ -35,15 +34,10 @@ func Configurar(r *mux.Router) *mux.Router {
 func getRotas() []Rota {
 	var rotas []Rota
 
-	for _, rota := range rotasUsuarios {
-		rotas = append(rotas, rota)
-	}
-
-	for _, rota := range rotasInfra {
-		rotas = append(rotas, rota)
-	}
-
+	rotas = append(rotas, rotasUsuarios...)
+	rotas = append(rotas, rotasInfra...)
 	rotas = append(rotas, rotaLogin)
+	rotas = append(rotas, rotasPublicacoes...)
 
 	return rotas
 }
