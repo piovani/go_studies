@@ -184,3 +184,63 @@ func (repositorio Usuarios) PararSeguir(usuarioID, seguidorID int64) error {
 
 	return nil
 }
+
+func (repositorio Usuarios) BuscarSeguidores(usuarioID int64) ([]modelos.Usuario, error) {
+	linhas, erro := repositorio.db.Query(`
+		SELECT u.id, u.nome, u.nick, u.email 
+		FROM usuarios u INNER JOIN seguidores s ON u.id = s.seguidor_id
+		WHERE s.usuario_id = ?
+	`, usuarioID)
+	if erro != nil {
+		return nil, erro
+	}
+	defer linhas.Close()
+
+	var usuarios []modelos.Usuario
+	for linhas.Next() {
+		var usuario modelos.Usuario
+
+		if erro = linhas.Scan(
+			&usuario.ID,
+			&usuario.Nome,
+			&usuario.Nick,
+			&usuario.Email,
+		); erro != nil {
+			return nil, erro
+		}
+
+		usuarios = append(usuarios, usuario)
+	}
+
+	return usuarios, nil
+}
+
+func (repositorio Usuarios) BuscarSeguindo(usuarioID int64) ([]modelos.Usuario, error) {
+	linhas, erro := repositorio.db.Query(`
+		SELECT u.id, u.nome, u.nick, u.email 
+		FROM usuarios u INNER JOIN seguidores s ON u.id = s.usuario_id
+		WHERE s.seguidor_id = ?
+	`, usuarioID)
+	if erro != nil {
+		return nil, erro
+	}
+	defer linhas.Close()
+
+	var usuarios []modelos.Usuario
+	for linhas.Next() {
+		var usuario modelos.Usuario
+
+		if erro = linhas.Scan(
+			&usuario.ID,
+			&usuario.Nome,
+			&usuario.Nick,
+			&usuario.Email,
+		); erro != nil {
+			return nil, erro
+		}
+
+		usuarios = append(usuarios, usuario)
+	}
+
+	return usuarios, nil
+}

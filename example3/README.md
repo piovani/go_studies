@@ -7,8 +7,8 @@ This application aims to simulate a social network, only texts
 ### Step 1
 
 - [X] - CRUD users
-- [ ] - Follow another user
-- [ ] - Stop follow another user
+- [X] - Follow another user
+- [X] - Stop follow another user
 - [ ] - Search all users that follow
 - [ ] - Search all users that are followed
 - [ ] - Update password
