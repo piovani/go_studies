@@ -1,0 +1,691 @@
+{
+	"info": {
+		"_postman_id": "588e38ec-4d4d-4671-b6d6-2c18c835f777",
+		"name": "Exemple3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "CREATE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"usuario 4\",\r\n    \"nick\": \"usuario4\",\r\n    \"senha\": \"1234\",\r\n    \"email\": \"usuario4@usuario.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios/3",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BUSC",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios?usuario=Teste",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "usuario",
+									"value": "Teste"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"usuario 11a\",\r\n    \"nick\": \"usuario111\",\r\n    \"email\": \"usuario11@usuario.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios/19",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios",
+								"19"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios/1",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Infra",
+			"item": [
+				{
+					"name": "HEART",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/heart",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"heart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Publicacoes",
+			"item": [
+				{
+					"name": "CREATE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"1\",\r\n    \"conteudo\": \"c1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/publicacoes",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"publicacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SEARCH",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/publicacoes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"publicacoes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ALL",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/publicacoes",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"publicacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"atualizada\",\r\n    \"conteudo\": \"contaudo atualiado\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/publicacoes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"publicacoes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/publicacoes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"publicacoes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BY USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios/1/publicacoes",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios",
+								"1",
+								"publicacoes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Seguir",
+			"item": [
+				{
+					"name": "SEGUIR",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios/1/seguir",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios",
+								"1",
+								"seguir"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PARAR DE SEGUIR",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios/1/parar-de-seguir",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios",
+								"1",
+								"parar-de-seguir"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SEGUIDORES",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios/1/seguidores",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios",
+								"1",
+								"seguidores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SEGUINDO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios/1/seguindo",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios",
+								"1",
+								"seguindo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "LOGIN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = responseBody\r",
+									"pm.collectionVariables.set(\"TOKEN_EX3\", body);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"usuario4@usuario.com\",\r\n    \"senha\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/login",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PASSWORD",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"atual\": \"1234\",\r\n    \"nova\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/usuarios/4/atualizar-senha",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"usuarios",
+								"4",
+								"atualizar-senha"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Link",
+			"item": [
+				{
+					"name": "LIKE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/publicacoes/2/curtir",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"publicacoes",
+								"2",
+								"curtir"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UNLIKE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_EX3}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:{{APP_PORT}}/publicacoes/2/descurtir",
+							"host": [
+								"localhost"
+							],
+							"port": "{{APP_PORT}}",
+							"path": [
+								"publicacoes",
+								"2",
+								"descurtir"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "TOKEN_EX3",
+			"value": ""
+		},
+		{
+			"key": "APP_PORT",
+			"value": ""
+		}
+	]
+}

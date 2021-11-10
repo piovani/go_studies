@@ -17,8 +17,8 @@ This application aims to simulate a social network, only texts
 
 - [X] - CRUD Publications
 - [X] - Search for publications according to the users who follow
-- [ ] - Like
-- [ ] - Unlike
+- [X] - Like
+- [X] - Unlike
 
 
 ## Requirements
@@ -30,10 +30,28 @@ This application aims to simulate a social network, only texts
 
 ## installation instructions
 
-1. in the project folder
+1. In the project folder
 ```
 docker-compose up -d
 ```
-2. connect with database and run the script that is in the [sql.sql](https://github.com/piovani/go_api/blob/master/example3/sql/sql.sql)
+2. Connect with database 
+
+a. Run the script that is in the [sql.sql](https://github.com/piovani/go_api/blob/master/example3/environment/sql.sql)
+
+OR
+
+b. Restore dump in the [dump.sql](https://github.com/piovani/go_api/blob/master/example3/environment/dump.sql)
+
 
 ## How To Test
+
+1. In your [Postman](https://www.postman.com/home) or [Insomnia](https://insomnia.rest/) restore collection [Exemple3.postman_collection.json](https://github.com/piovani/go_api/blob/master/example3/environment/Exemple3.postman_collection.json)
+
+2. Run
+```
+docker exec go-api-exemple-3-api go run main.go
+```
+ps:
+* if your port 5000 is in use just change the .env file to one that is free
+
+* in the variables of the route collection it will also be necessary for the port of your choice
