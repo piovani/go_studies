@@ -15,9 +15,10 @@ This application aims to simulate a social network, only texts
 
 ### Step 2
 
-- [ ] - CRUD Publications
-- [ ] - Search for publications according to the users who follow
+- [X] - CRUD Publications
+- [X] - Search for publications according to the users who follow
 - [ ] - Like
+- [ ] - Unlike
 
 
 ## Requirements
