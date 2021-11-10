@@ -128,3 +128,37 @@ func (repositorio Publicacoes) DeletarPublicacao(publicacaoID int64) error {
 
 	return nil
 }
+
+func (repositorio Publicacoes) BuscarPorUsuarioID(usuarioID int64) ([]modelos.Publicacao, error) {
+	linhas, erro := repositorio.db.Query(`
+		SELECT DISTINCT p.id, p.titulo, p.conteudo, p.autor_id, p.curtidas, u.nick FROM publicacoes p
+		JOIN usuario u ON u.id = p.autor_id
+		WHERE p.autor_id = ?`,
+		usuarioID,
+	)
+	if erro != nil {
+		return []modelos.Publicacao{}, erro
+	}
+	defer linhas.Close()
+
+	var publicacoes []modelos.Publicacao
+
+	for linhas.Next() {
+		var publicacao modelos.Publicacao
+
+		if erro = linhas.Scan(
+			&publicacao.ID,
+			&publicacao.Titulo,
+			&publicacao.Conteudo,
+			&publicacao.AutorID,
+			&publicacao.Curtidas,
+			&publicacao.AutorNick,
+		); erro != nil {
+			return nil, erro
+		}
+
+		publicacoes = append(publicacoes, publicacao)
+	}
+
+	return publicacoes, nil
+}
