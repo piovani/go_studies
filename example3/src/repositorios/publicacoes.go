@@ -64,3 +64,53 @@ func (repositorio Publicacoes) BuscarPorID(publicacaoID int64) (modelos.Publicac
 
 	return publicacao, nil
 }
+
+func (repositorio Publicacoes) Buscar(usuarioID int64) ([]modelos.Publicacao, error) {
+	linhas, erro := repositorio.db.Query(`
+		SELECT DISTINCT p.id, p.titulo, p.conteudo, p.autor_id, p.curtidas, u.nick FROM publicacoes p
+		INNER JOIN usuarios u ON u.id = p.autor_id
+		INNER JOIN seguidores s ON p.autor_id = s.usuario_id
+		WHERE p.autor_id = ? OR s.seguidor_id = ?`,
+		usuarioID,
+		usuarioID,
+	)
+	if erro != nil {
+		return []modelos.Publicacao{}, erro
+	}
+	defer linhas.Close()
+
+	var publicacoes []modelos.Publicacao
+
+	for linhas.Next() {
+		var publicacao modelos.Publicacao
+
+		if erro = linhas.Scan(
+			&publicacao.ID,
+			&publicacao.Titulo,
+			&publicacao.Conteudo,
+			&publicacao.AutorID,
+			&publicacao.Curtidas,
+			&publicacao.AutorNick,
+		); erro != nil {
+			return nil, erro
+		}
+
+		publicacoes = append(publicacoes, publicacao)
+	}
+
+	return publicacoes, nil
+}
+
+func (repositorio Publicacoes) Atualizar(publicacao modelos.Publicacao) error {
+	statement, erro := repositorio.db.Prepare("UPDATE publicacoes SET titulo = ?, conteudo = ? WHERE id = ?")
+	if erro != nil {
+		return erro
+	}
+	defer statement.Close()
+
+	if _, erro = statement.Exec(publicacao.Titulo, publicacao.Conteudo, publicacao.ID); erro != nil {
+		return erro
+	}
+
+	return nil
+}

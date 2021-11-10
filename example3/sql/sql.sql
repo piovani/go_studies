@@ -44,3 +44,8 @@ INSERT INTO seguidores(usuario_id, seguidor_id) VALUES
 (1, 2),
 (3, 1),
 (1, 3);
+
+INSERT INTO publicacoes (titulo, conteudo, autor_id) VALUES 
+("Titulo 1", "conteudo 1", "1"),
+("Titulo 2", "conteudo 2", "2"),
+("Titulo 3", "conteudo 3", "3");

@@ -7,7 +7,7 @@ import (
 
 var rotasInfra = []Rota{
 	{
-		URI:                "/prove",
+		URI:                "/heart",
 		Metodo:             http.MethodGet,
 		Funcao:             controllers.Prove,
 		RequerAutenticacao: false,

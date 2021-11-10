@@ -25,7 +25,7 @@ var rotasPublicacoes = []Rota{
 		RequerAutenticacao: true,
 	},
 	{
-		URI:                "/publicacoes",
+		URI:                "/publicacoes/{publicacaoId}",
 		Metodo:             http.MethodPut,
 		Funcao:             controllers.AtualizaPublicacao,
 		RequerAutenticacao: true,
