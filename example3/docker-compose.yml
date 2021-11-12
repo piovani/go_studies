@@ -3,6 +3,8 @@ version: '3.8'
 volumes:
     go-api-exemple-3-db:
         external: true
+    go-api-exemple-3-mongo:
+        external: true
 
 networks:
     go-api-exemple-3-networks:
@@ -21,6 +23,18 @@ services:
             - "MYSQL_DATABASE=database"
             - "MYSQL_USER=user"
             - "MYSQL_PASSWORD=secret"
+        networks:
+            - go-api-exemple-3-networks
+    
+    go-api-exemple-3-mongo:
+        container_name: go-api-exemple-3-mongo
+        image: mongo:latest
+        environment:
+            - MONGO_DATA_DIR=/data/db
+        volumes:
+            - go-api-exemple-3-mongo:/data/db
+        ports:
+        - 27017:27017
         networks:
             - go-api-exemple-3-networks
 

@@ -51,7 +51,10 @@ b. Restore dump in the [dump.sql](https://github.com/piovani/go_api/blob/master/
 ```
 docker exec go-api-exemple-3-api go run main.go
 ```
-ps:
+
+3. Exec the routers
+
+<b>ps:</br>
 * if your port 5000 is in use just change the .env file to one that is free
 
 * in the variables of the route collection it will also be necessary for the port of your choice
