@@ -14,3 +14,7 @@ This project was developed together with the Udemy course [Link](https://www.ude
 The project is not exactly a thing, as it has some modifications of mine, due to my knowledge in a finished subject being greater than the presented one.
 
 It's an api of a mini social network, with user registrations and publications.
+
+
+## [Auth](https://github.com/piovani/go_api/tree/master/go_auth)
+this project aims to understand the GoLang JWT package only.
