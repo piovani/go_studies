@@ -14,6 +14,7 @@ var (
 	Porta              = 0
 	SecretKey          []byte
 	MongoHost          = ""
+	MongoDatabase      = ""
 )
 
 // Carregar vai trazer as variaveis de ambiente
@@ -40,4 +41,5 @@ func Carregar() {
 	SecretKey = []byte(os.Getenv("SECRET_KEY"))
 
 	MongoHost = os.Getenv("MONGO_HOST")
+	MongoDatabase = os.Getenv("MONGO_DATABASE")
 }

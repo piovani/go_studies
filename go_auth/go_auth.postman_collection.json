@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "7de4c3dc-2c0f-42b9-bbc9-fa4b7726d925",
+		"name": "go_auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Generate Secret Key",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:1323/generate",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"generate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:1323/auth",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Valid Token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzY4NjA5NzAsInVzdWFyaW9JZCI6MX0.MYh1wesxKO9jMNcKTxdJtDxMhsKM07JayaxDToLN3-E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:1323/valid",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"valid"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
