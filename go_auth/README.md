@@ -4,7 +4,7 @@ Is a small application for personal growth, where the main objective was the JWT
 
 ## How To Test
 
-1. In your [Postman](https://www.postman.com/home) or [Insomnia](https://insomnia.rest/) restore collection [Exemple3.postman_collection.json](https://github.com/piovani/go_api/blob/master/go_auth/go_auth.postman_collection.json)
+1. In your [Postman](https://www.postman.com/home) or [Insomnia](https://insomnia.rest/) restore collection [go_auth.postman_collection.json](https://github.com/piovani/go_api/blob/master/go_auth/go_auth.postman_collection.json)
 
 2. make a request for the "Get Token" route
 
