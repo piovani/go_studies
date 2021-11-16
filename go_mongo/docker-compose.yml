@@ -1,0 +1,30 @@
+version: "3.8"
+
+volumes:  
+  go_mongo-mongo:
+      external: true
+
+networks:
+  go_mongo-networks:
+    external: true
+
+services:
+  go_mongo-app:
+    build: .
+    container_name: go_mongo-app
+    volumes:
+      - .:/go/src/
+    networks:
+      - go_mongo-networks
+
+  go_mongo-mongo:
+    container_name: go_mongo-mongo
+    image: mongo:latest
+    environment:
+      - MONGO_DATA_DIR=/data/db
+    volumes:
+      - go_mongo-mongo:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - go_mongo-networks
