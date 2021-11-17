@@ -17,4 +17,8 @@ It's an api of a mini social network, with user registrations and publications.
 
 
 ## [Auth](https://github.com/piovani/go_api/tree/master/go_auth)
-this project aims to understand the GoLang JWT package only.
+This project aims to understand the GoLang JWT package only.
+
+
+## [External Request](https://github.com/piovani/go_api/tree/master/go_external_request)
+Most api need information outside their scope, and to get this information it makes external requests to other APIs. And this project aims to show how an external request is made for other applications.
