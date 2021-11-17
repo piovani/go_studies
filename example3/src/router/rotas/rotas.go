@@ -35,7 +35,7 @@ func getRotas() []Rota {
 	var rotas []Rota
 
 	rotas = append(rotas, rotasUsuarios...)
-	rotas = append(rotas, rotasInfra...)
+	// rotas = append(rotas, rotasInfra...)
 	rotas = append(rotas, rotaLogin)
 	rotas = append(rotas, rotasPublicacoes...)
 

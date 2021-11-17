@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -42,8 +43,8 @@ type Body struct {
 
 func main() {
 	// get()
-	post()
-	// update()
+	// post()
+	update()
 	// delete()
 }
 
@@ -58,13 +59,56 @@ func get() {
 	fmt.Println(body.Navegacao.Descendentes[0].ID)
 }
 
-func post() {
-	res, _ := http.Get("https://www.bcb.gov.br/api/conteudo/sitebcb/indicadortaxaselic/ultima")
-	defer res.Body.Close()
+func post() string {
+	body := map[string]string{
+		"email": "usuario1@email.com",
+		"senha": "1234",
+	}
 
-	var body Body
-	bodyBytes, _ := ioutil.ReadAll(res.Body)
-	json.Unmarshal(bodyBytes, &body)
+	bodyJson, _ := json.Marshal(body)
 
-	fmt.Println(body.Navegacao.Descendentes[0].ID)
+	res, _ := http.Post("http://localhost:5000/login", "application/json", bytes.NewBuffer(bodyJson))
+
+	resBytes, _ := ioutil.ReadAll(res.Body)
+	token := string(resBytes)
+
+	return token
+}
+
+func update() {
+	token := post()
+
+	body := map[string]string{
+		"nome":  "usuario 11a",
+		"nick":  "usuario111",
+		"email": "usuario11@usuario.com",
+	}
+
+	bodyJson, _ := json.Marshal(body)
+
+	url := "http://localhost:5000/usuarios/1"
+
+	client := &http.Client{}
+	request, _ := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(bodyJson))
+	request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
+
+	response, _ := client.Do(request)
+	defer response.Body.Close()
+
+	fmt.Println(response.Status)
+}
+
+func delete() {
+	token := post()
+
+	url := fmt.Sprintf("http://localhost:5000/usuarios/%d", 1)
+
+	client := &http.Client{}
+	request, _ := http.NewRequest(http.MethodDelete, url, nil)
+	request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
+
+	response, _ := client.Do(request)
+	defer response.Body.Close()
+
+	fmt.Println(response.Status)
 }
