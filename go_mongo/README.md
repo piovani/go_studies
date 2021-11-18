@@ -16,6 +16,6 @@
 - [ ] delete collection
 
 ### Document
-- [ ] create document
+- [X] create document
 - [ ] update document
 - [ ] delete document
