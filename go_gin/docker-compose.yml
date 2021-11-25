@@ -1,0 +1,16 @@
+version: '3.8'
+
+networks:
+    go_gin-networks:
+        external: true
+
+services:
+    go_gin-api:
+        container_name: go_gin-api
+        build: .
+        volumes:
+            - .:/go/src/
+        ports:
+            - 7000:7000
+        networks:
+            - go_gin-networks

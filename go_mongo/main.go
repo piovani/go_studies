@@ -59,7 +59,41 @@ func getCollectionAndCtx() (*mongo.Collection, context.Context) {
 	return collection, ctx
 }
 
-// REGISTROS
+// DATABASES
+func createDatabase() bool {
+	return false
+}
+
+func updateDatabase() bool {
+	return false
+}
+
+func deleteDatabase() bool {
+	return false
+}
+
+func listDatabases() bool {
+	return false
+}
+
+// COLLECTIONS
+func createCollection() bool {
+	return false
+}
+
+func updateCollection() bool {
+	return false
+}
+
+func deleteCollection() bool {
+	return false
+}
+
+func listCollections() bool {
+	return false
+}
+
+// DOCUMENTS
 func insertRecord() bool {
 	var task Task
 	task.ID = 7
@@ -77,7 +111,13 @@ func insertRecord() bool {
 }
 
 func updateRecord() bool {
-	
+
+	return false
+}
+
+func deleteRecord() bool {
+
+	return false
 }
 
 func listRecords() bool {

@@ -3,7 +3,7 @@
 ## Goals
 
 ### General
-- [ ] Connection with Mongo
+- [X] Connection with Mongo
 
 ### Database
 - [ ] create database
