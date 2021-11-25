@@ -22,7 +22,8 @@ type Task struct {
 func main() {
 	// REGISTROS
 	// res := insertRecord()
-	res := updateRecord()
+	// res := updateRecord()
+	res := deleteRecord()
 	// res := listRecords()
 
 	if !res {
@@ -138,19 +139,26 @@ func updateRecord() bool {
 }
 
 func deleteRecord() bool {
+	id := int64(6)
+	collection, ctx := getCollectionAndCtx()
 
-	return false
+	filter := bson.M{"_id": bson.M{"$eq": id}}
+
+	result, err := collection.DeleteOne(ctx, filter)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+
+	println("Quantidade de registros deletados", result.DeletedCount)
+
+	return true
 }
 
 func listRecords() bool {
 	var tasks []*Task
 
 	collection, ctx := getCollectionAndCtx()
-
-	// findOptions := options.Find()
-	// findOptions.SetLimit(5)
-
-	// cur, err := collection.Find(ctx, bson.D{{}}, findOptions)
 
 	cur, err := collection.Find(ctx, bson.D{})
 	if err != nil {
