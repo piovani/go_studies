@@ -111,8 +111,30 @@ func insertRecord() bool {
 }
 
 func updateRecord() bool {
+	id := int64(7)
+	novoTexto := "O Texto foi alterado2"
 
-	return false
+	collection, ctx := getCollectionAndCtx()
+
+	filter := bson.M{"_id": bson.M{"$eq": id}}
+	update := bson.M{"$set": bson.M{"text": novoTexto}}
+
+	result, err := collection.UpdateOne(
+		ctx,
+		filter,
+		update,
+	)
+
+	if err != nil {
+		println(err)
+		return false
+	}
+
+	println("Quantidade de registros que bateram com o filtro", result.MatchedCount)
+	println("Quantidade de registros alterados", result.ModifiedCount)
+	println("Quantidade de registros alterados", result.UpsertedCount)
+
+	return true
 }
 
 func deleteRecord() bool {
