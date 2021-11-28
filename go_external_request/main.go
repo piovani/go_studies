@@ -44,7 +44,7 @@ type Body struct {
 func main() {
 	// get()
 	// post()
-	update()
+	// update()
 	// delete()
 }
 

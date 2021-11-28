@@ -22,3 +22,16 @@ This project aims to understand the GoLang JWT package only.
 
 ## [External Request](https://github.com/piovani/go_api/tree/master/go_external_request)
 Most api need information outside their scope, and to get this information it makes external requests to other APIs. And this project aims to show how an external request is made for other applications.
+
+
+## [Mongo](https://github.com/piovani/go_api/tree/master/go_mongo)
+This project aims to study the mongo driver for GoLang. As mongo is a very fast and widely used database for microservices, it makes perfect sense to study the interaction between these two technologies.
+
+
+## [Gin](https://github.com/piovani/go_api/tree/master/go_gin) <b><i>Incomplete</i></b>
+this project aims to study Gin, a framework widely used in the GoLang community, it's just a simple API with a simple set of routes making CRUD.
+
+
+## Goals
+* [ ] - Kafka
+* [ ] - Full-Stack Aplication
