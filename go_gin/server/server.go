@@ -3,6 +3,8 @@ package server
 import (
 	"log"
 
+	"go_gin/server/routes"
+
 	"github.com/gin-gonic/gin"
 )
 
