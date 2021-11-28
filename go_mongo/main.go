@@ -20,10 +20,10 @@ type Task struct {
 }
 
 func main() {
-	// REGISTROS
+	// DOCUMENTS
 	// res := insertRecord()
 	// res := updateRecord()
-	res := deleteRecord()
+	// res := deleteRecord()
 	// res := listRecords()
 
 	if !res {
@@ -58,40 +58,6 @@ func getCollectionAndCtx() (*mongo.Collection, context.Context) {
 	// defer cancel()
 
 	return collection, ctx
-}
-
-// DATABASES
-func createDatabase() bool {
-	return false
-}
-
-func updateDatabase() bool {
-	return false
-}
-
-func deleteDatabase() bool {
-	return false
-}
-
-func listDatabases() bool {
-	return false
-}
-
-// COLLECTIONS
-func createCollection() bool {
-	return false
-}
-
-func updateCollection() bool {
-	return false
-}
-
-func deleteCollection() bool {
-	return false
-}
-
-func listCollections() bool {
-	return false
 }
 
 // DOCUMENTS
