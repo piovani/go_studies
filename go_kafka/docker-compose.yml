@@ -54,7 +54,7 @@ services:
 
   go_kafka-kafka:
     container_name: go_kafka-kafka
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:5.3.1
     restart: always
     depends_on:
       - go_kafka-zookeeper
