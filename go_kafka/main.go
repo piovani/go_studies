@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
+	"go_kafka/cmd"
 	"log"
 	"net/http"
 	"os"
@@ -14,7 +14,6 @@ import (
 
 	"github.com/Shopify/sarama"
 	_ "github.com/go-sql-driver/mysql" // Driver
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
 )
 
@@ -29,8 +28,10 @@ type Env struct {
 var env Env
 
 func main() {
-	initConfig()
-	getMessages()
+	cmd.Execute()
+
+	// initConfig()
+	// getMessages()
 
 	// e := echo.New()
 
@@ -44,7 +45,6 @@ func main() {
 func logError(err error) {
 	fmt.Println("DEU RUIM, erro: %v", err)
 }
-
 
 func list(c echo.Context) error {
 	return c.String(http.StatusOK, "Hello, World!")
@@ -152,5 +152,3 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 
 	return nil
 }
-
-
