@@ -45,27 +45,6 @@ func logError(err error) {
 	fmt.Println("DEU RUIM, erro: %v", err)
 }
 
-func initConfig() {
-	var err error
-
-	if err = godotenv.Load(); err != nil {
-		logError(err)
-	}
-
-	env.ApiPort = fmt.Sprintf(":%s", os.Getenv("API_PORT"))
-
-	env.ConnectionDB = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_DATABASE"),
-	)
-
-	env.KafkaBroker = os.Getenv("KAFKA_BROKER")
-	env.KafkaGroup = os.Getenv("KAFKA_GROUP")
-	env.KafkaTopic = os.Getenv("KAFKA_TOPIC")
-}
 
 func list(c echo.Context) error {
 	return c.String(http.StatusOK, "Hello, World!")
@@ -174,42 +153,4 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	return nil
 }
 
-//======================================================================================================================
 
-func saveMessage(message string) {
-	db := getConnectionDB()
-	statement, err := db.Prepare(
-		"INSERT INTO messages (message) VALUES (?)",
-	)
-
-	if err != nil {
-		log.Fatal("Erro: ", err)
-	}
-	defer statement.Close()
-
-	res, err := statement.Exec(message)
-	if err != nil {
-		log.Fatal("Erro: ", err)
-	}
-
-	lastID, err := res.LastInsertId()
-	if err != nil {
-		log.Fatal("Erro: ", err)
-	}
-
-	fmt.Println(lastID)
-}
-
-func getConnectionDB() *sql.DB {
-	db, err := sql.Open("mysql", env.ConnectionDB)
-	if err != nil {
-		log.Fatal("Erro: ", err)
-	}
-
-	if err = db.Ping(); err != nil {
-		db.Close()
-		log.Fatal("Erro: ", err)
-	}
-
-	return db
-}
