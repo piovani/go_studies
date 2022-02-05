@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"go_kafka/cmd"
+	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"strings"
@@ -10,24 +13,62 @@ import (
 	"syscall"
 
 	"github.com/Shopify/sarama"
+	_ "github.com/go-sql-driver/mysql" // Driver
+	"github.com/labstack/echo"
 )
 
-type Consumer struct {
-	ready chan bool
+type Env struct {
+	ApiPort      string
+	ConnectionDB string
+	KafkaBroker  string
+	KafkaGroup   string
+	KafkaTopic   string
 }
 
-const (
-	Broker string = "127.0.0.1:9092"
-	Group  string = "0"
-	Topic  string = "topic-test"
-)
+var env Env
 
 func main() {
-	getMessagesFromTopic()
-	// postMessageInTopic()
+	cmd.Execute()
+
+	// initConfig()
+	// getMessages()
+
+	// e := echo.New()
+
+	// e.GET("/", list)
+	// e.GET("/receive", receive)
+	// e.POST("/send", send)
+
+	// e.Logger.Fatal(e.Start(env.ApiPort))
 }
 
-func getMessagesFromTopic() bool {
+func logError(err error) {
+	fmt.Println("DEU RUIM, erro: %v", err)
+}
+
+func list(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
+}
+
+func receive(c echo.Context) error {
+	if !getMessages() {
+		return c.String(http.StatusInternalServerError, "DEU RUIM")
+	}
+
+	return c.String(http.StatusOK, "DEU BOM")
+}
+
+func send(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!2")
+}
+
+//======================================================================================================================
+
+type MessageKafka struct {
+	Message string `json:"message"`
+}
+
+func getMessages() bool {
 	config := sarama.NewConfig()
 	config.Version = sarama.DefaultVersion
 	config.Consumer.Group.Rebalance.Strategy = sarama.BalanceStrategyRoundRobin
@@ -42,19 +83,18 @@ func getMessagesFromTopic() bool {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	client, err := sarama.NewConsumerGroup(strings.Split(Broker, ","), Group, config)
+	client, err := sarama.NewConsumerGroup(strings.Split(env.KafkaBroker, ","), env.KafkaGroup, config)
 	if err != nil {
-		fmt.Println("Error creating consumer group client: %v", err)
+		log.Panicf("Error creating consumer group client: %v", err)
 	}
 
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
 
 	go func() {
-		defer wg.Done()
-
 		for {
-			if err := client.Consume(ctx, strings.Split(Topic, ","), &consumer); err != nil {
+			err := client.Consume(ctx, strings.Split(env.KafkaTopic, ","), &consumer)
+			if err != nil {
 				fmt.Println("DEU RUIM, ERRO: %v", err)
 			}
 
@@ -67,27 +107,31 @@ func getMessagesFromTopic() bool {
 	}()
 
 	<-consumer.ready
-	fmt.Println("Sarama consumer up and running!...")
+	log.Println("Sarama consumer up and running!...")
 
 	sigterm := make(chan os.Signal, 1)
 	signal.Notify(sigterm, syscall.SIGINT, syscall.SIGTERM)
 
 	select {
 	case <-ctx.Done():
-		fmt.Println("terminating: context cancelled")
+		log.Println("terminating: context cancelled")
 
 	case <-sigterm:
-		fmt.Println("terminating: via signal")
+		log.Println("terminating: via signal")
 	}
 
 	cancel()
 	wg.Wait()
 
 	if err = client.Close(); err != nil {
-		fmt.Printf("Error closing client: %v", err)
+		log.Panicf("Error closing client: %v", err)
 	}
 
 	return true
+}
+
+type Consumer struct {
+	ready chan bool
 }
 
 func (consumer *Consumer) Setup(sarama.ConsumerGroupSession) error {

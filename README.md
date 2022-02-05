@@ -29,9 +29,16 @@ This project aims to study the mongo driver for GoLang. As mongo is a very fast 
 
 
 ## [Gin](https://github.com/piovani/go_api/tree/master/go_gin)
-this project aims to study Gin, a framework widely used in the GoLang community, it's just a simple API with a simple set of routes making CRUD.
+This project aims to study Gin, a framework widely used in the GoLang community, it's just a simple API with a simple set of routes making CRUD.
 
+
+## [Kafka](https://github.com/piovani/go_api/tree/master/go_kafka)
+This project aims to study Kafka, consumer and posting messages on kafka topic.
 
 ## Goals
-* [ ] - Kafka
-* [ ] - Full-Stack Aplication
+* [ ] - Web
+* [ ] - Tests
+* [ ] - Blockchain
+* [ ] - Gorrotinas and Channels
+* [ ] - RabbitMQ
+* [ ] - gRPC
