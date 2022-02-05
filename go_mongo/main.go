@@ -21,7 +21,7 @@ type Task struct {
 
 func main() {
 	// DOCUMENTS
-	// res := insertRecord()
+	res := insertRecord()
 	// res := updateRecord()
 	// res := deleteRecord()
 	// res := listRecords()

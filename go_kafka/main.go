@@ -145,7 +145,12 @@ func (consumer *Consumer) Cleanup(sarama.ConsumerGroupSession) error {
 
 func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
 	for message := range claim.Messages() {
-		fmt.Println("Message claimed: value = %s, timestamp = %v, topic = %s", string(message.Value), message.Timestamp, message.Topic)
+		fmt.Println(
+			"Message claimed: value = %s, timestamp = %v, topic = %s",
+			string(message.Value),
+			message.Timestamp,
+			message.Topic,
+		)
 
 		session.MarkMessage(message, "")
 	}

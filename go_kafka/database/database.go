@@ -31,15 +31,15 @@ func SaveMessage(message string) {
 }
 
 func getConnectionDB() *sql.DB {
-	// db, err := sql.Open("mysql", env.ConnectionDB)
-	// if err != nil {
-	// 	log.Fatal("Erro: ", err)
-	// }
+	db, err := sql.Open("mysql", "localhost:3306")
+	if err != nil {
+		log.Fatal("Erro: ", err)
+	}
 
-	// if err = db.Ping(); err != nil {
-	// 	db.Close()
-	// 	log.Fatal("Erro: ", err)
-	// }
+	if err = db.Ping(); err != nil {
+		db.Close()
+		log.Fatal("Erro: ", err)
+	}
 
-	// return db
+	return db
 }
