@@ -23,11 +23,9 @@ a\) By command line
 ```
 kafka --create --topic topic-test --replication-factor 1 --partitions 3
 
-kafka-topics --bootstrap-server=localhost:9092 -c-create --name=courses --partitions=3 --replication-factor=1
+kafka-topics --bootstrap-server=localhost:9092 --create --name=courses --partitions=3 --replication-factor=1
 
-kafka-console-producer --bootstrap-server=localhost:9092 --topic=courses
-
-
+kafka-console-producer --bootstrap-server=localhost:9092 --topic=topic-test
 
 ```
 

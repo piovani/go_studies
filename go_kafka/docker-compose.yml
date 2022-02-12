@@ -11,12 +11,12 @@ volumes:
     external: false
 
 services:
-  go_kafka-app:
-    build: .
-    volumes:
-      - .:/go/src/
-    networks:
-      - go_kafka-networks
+  # go_kafka-app:
+  #   build: .
+  #   volumes:
+  #     - .:/go/src/
+  #   networks:
+  #     - go_kafka-networks
 
   go_kafka-zookeeper:
     container_name: go_kafka-zookeeper
