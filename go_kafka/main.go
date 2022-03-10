@@ -1,16 +1,20 @@
 package main
 
-import "go_kafka/confluent"
+import (
+	confluentLocal "go_kafka/confluent"
+	samaraLocal "go_kafka/sarama"
+)
 
-// samaraLocal "go_kafka/sarama"
+var (
+	SaramaLocal    = samaraLocal.NewSaramaLocal([]string{"127.0.0.1:9092"}, "topic-test")
+	ConfluentLocal = confluentLocal.NewConflientLocal()
+)
 
 func main() {
 	// SARAMA
-	// samaraLocal := samaraLocal.NewSaramaLocal([]string{"127.0.0.1:9092"}, "topic-test")
-	// samaraLocal.GetMessagesFromTopic()
-	// samaraLocal.PostmessageInTopic("Eu sou a messagem 3")
+	// SaramaLocal.GetMessagesFromTopic()
+	// SaramaLocal.PostmessageInTopic("Eu sou a messagem 3")
 
 	// CONFLUENT
-	confluentLocal := confluent.NewConflientLocal()
-	confluentLocal.GetMessagesFromTopic()
+	ConfluentLocal.GetMessagesFromTopic()
 }
