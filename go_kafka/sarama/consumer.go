@@ -1,110 +1,38 @@
 package sarama
 
 import (
-	"context"
 	"fmt"
-	"os"
-	"os/signal"
-	"strings"
-	"sync"
-	"syscall"
 
 	"github.com/Shopify/sarama"
 )
 
-type Consumer struct {
-	ready chan bool
-}
-
-const (
-	Broker string = "127.0.0.1:9092"
-	Group  string = "0"
-	Topic  string = "topic-test"
-)
-
-func GetMessagesFromTopic() bool {
-	config := sarama.NewConfig()
-	config.Version = sarama.DefaultVersion
-	config.Consumer.Group.Rebalance.Strategy = sarama.BalanceStrategyRoundRobin
-	config.Consumer.Offsets.Initial = sarama.OffsetOldest
-	config.Consumer.Offsets.AutoCommit.Enable = false
-	config.ChannelBufferSize = 2000
-
-	consumer := Consumer{
-		ready: make(chan bool),
-	}
-
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	client, err := sarama.NewConsumerGroup(strings.Split(Broker, ","), Group, config)
+func (s *SaramaLocal) GetMessagesFromTopic() {
+	consumer, err := sarama.NewConsumer(s.Brokers, nil)
 	if err != nil {
-		fmt.Println("Error creating consumer group client: %v", err)
+		fmt.Println("Could not create consumer: ", err)
 	}
 
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
+	subscribe(s.Topic, consumer)
+}
 
-	go func() {
-		defer wg.Done()
+func subscribe(topic string, consumer sarama.Consumer) {
+	partitionList, err := consumer.Partitions(topic) //get all partitions on the given topic
+	if err != nil {
+		fmt.Println("Erro ao listar as particoes ", err)
+	}
+	initialOffset := sarama.OffsetOldest
 
-		for {
-			if err := client.Consume(ctx, strings.Split(Topic, ","), &consumer); err != nil {
-				fmt.Println("DEU RUIM, ERRO: %v", err)
+	for _, partition := range partitionList {
+		pc, _ := consumer.ConsumePartition(topic, partition, initialOffset)
+
+		go func(pc sarama.PartitionConsumer) {
+			for message := range pc.Messages() {
+				messageReceived(message)
 			}
-
-			if ctx.Err() != nil {
-				return
-			}
-
-			consumer.ready = make(chan bool)
-		}
-	}()
-
-	<-consumer.ready
-	fmt.Println("Sarama consumer up and running!...")
-
-	sigterm := make(chan os.Signal, 1)
-	signal.Notify(sigterm, syscall.SIGINT, syscall.SIGTERM)
-
-	select {
-	case <-ctx.Done():
-		fmt.Println("terminating: context cancelled")
-
-	case <-sigterm:
-		fmt.Println("terminating: via signal")
+		}(pc)
 	}
-
-	cancel()
-	wg.Wait()
-
-	if err = client.Close(); err != nil {
-		fmt.Printf("Error closing client: %v", err)
-	}
-
-	return true
 }
 
-func (consumer *Consumer) Setup(sarama.ConsumerGroupSession) error {
-	close(consumer.ready)
-	return nil
-}
-
-func (consumer *Consumer) Cleanup(sarama.ConsumerGroupSession) error {
-	return nil
-}
-
-func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
-	for message := range claim.Messages() {
-		fmt.Println(
-			"Message claimed: value = %s, timestamp = %v, topic = %s",
-			string(message.Value),
-			message.Timestamp,
-			message.Topic,
-		)
-
-		session.MarkMessage(message, "")
-	}
-
-	return nil
+func messageReceived(message *sarama.ConsumerMessage) {
+	fmt.Println(string(message.Value))
 }
