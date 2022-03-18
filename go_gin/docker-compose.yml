@@ -18,15 +18,12 @@ services:
     go_gin-postgres:
         container_name: go_gin-postgres
         restart: always
-        image: postgres:13.2
+        image: postgres
+        volumes:
+            - .docker/dbdata:/var/lib/postgres
         ports:
             - 5432:5432
         networks:
             - go_gin-networks
         environment:
-            - POSTGRES_DB=gin
-            - POSTGRES_USER=root
             - POSTGRES_PASSWORD=secret
-            - TZ=GMT
-        volumes:
-            - "./data/postgres:/var/lib/postgresql/data"

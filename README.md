@@ -37,10 +37,12 @@ This project aims to study Kafka, consumer and posting messages on kafka topic.
 
 ## Goals
 * [ ] - Web
+* [ ] - Crawler
 * [ ] - Send EMails
 * [ ] - Redis
 * [ ] - Tests
 * [ ] - gRPC
+* [ ] - Tests no gPRC 
 * [ ] - Gorrotinas and Channels
 * [ ] - RabbitMQ
 * [ ] - Google PubSub
