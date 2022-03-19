@@ -1,7 +1,10 @@
 version: "3.8"
 
 services:
-  go-generics:
-    container_name: go-generics
-    build: .
+  generics:
+    container_name: generics
+    image: golang:1.18beta1
+    working_dir: "/go/src"
+    volumes:
+      - .:/go/src
     command: "tail -f /dev/null"
