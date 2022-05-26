@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"projeto-interface/inter"
 	"projeto-interface/str"
+	"reflect"
 )
 
 type Main struct {
@@ -18,7 +20,9 @@ func NewMain(
 }
 
 func main() {
-	inter := str.Str{}
+	inter := str.NewStr()
+
+	fmt.Println(reflect.TypeOf(inter))
 
 	main := NewMain(inter)
 
