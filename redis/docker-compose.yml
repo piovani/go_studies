@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  redis:
+    container_name: redis
+    image: redis
+    command: redis-server --requirepass 1234 --appendonly yes
+    hostname: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - .redis:/var/lib/postgresql/data
