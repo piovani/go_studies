@@ -15,6 +15,9 @@ func (s *SaramaLocal) PostmessageInTopic(message string) {
 	msg := prepareMessage(s.Topic, message)
 
 	partition, offset, err := producer.SendMessage(msg)
+
+	fmt.Println(partition, offset, err)
+
 	if err != nil {
 		fmt.Sprintln("%s error occured.", err.Error())
 	} else {

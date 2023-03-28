@@ -13,8 +13,8 @@ var (
 func main() {
 	// SARAMA
 	// SaramaLocal.GetMessagesFromTopic()
-	// SaramaLocal.PostmessageInTopic("Eu sou a messagem 3")
+	SaramaLocal.PostmessageInTopic("Eu sou a messagem 3")
 
 	// CONFLUENT
-	ConfluentLocal.GetMessagesFromTopic()
+	// ConfluentLocal.GetMessagesFromTopic()
 }
