@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -33,7 +33,7 @@ func (p *provider) GetWeatherByCity(city string) (Wather, error) {
 	}
 	defer res.Body.Close()
 
-	bodyRaw, err := ioutil.ReadAll(res.Body)
+	bodyRaw, err := io.ReadAll(res.Body)
 	if err != nil {
 		return wather, fmt.Errorf("openweather.GetWeatherByCity failed reading body: %s", err)
 	}
