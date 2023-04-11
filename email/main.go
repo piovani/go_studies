@@ -19,8 +19,7 @@ func main() {
 	n := gomail.NewDialer("sandbox.smtp.mailtrap.io", 587, user, password)
 
 	if err := n.DialAndSend(msg); err != nil {
-		fmt.Println("DEU RUIM: %v", err)
-		panic(err)
+		fmt.Printf("DEU RUIM: %v", err)
 	} else {
 		fmt.Println("DEU BOM!!!")
 	}
