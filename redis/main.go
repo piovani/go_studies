@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/go-redis/redis/v8"
+	redis "github.com/redis/go-redis/v9"
 )
 
 func main() {
 	ctx := context.TODO()
-	r := NewRedis("localhost:6379", "", "1234")
+	// r := NewRedis("localhost:6379", "", "1234")
+	r := NewRedis2()
 
 	key := "chave"
 	valueSet := "valor de teste"
@@ -23,7 +24,8 @@ func main() {
 }
 
 type Redis struct {
-	Client *redis.Client
+	ClientCluster *redis.ClusterClient
+	Client        *redis.Client
 }
 
 func NewRedis(host string, user string, password string) *Redis {
@@ -36,10 +38,28 @@ func NewRedis(host string, user string, password string) *Redis {
 	}
 }
 
+func NewRedis2() *Redis {
+	return &Redis{
+		ClientCluster: redis.NewClusterClient(
+			&redis.ClusterOptions{
+				Addrs: []string{"127.0.0.1:23000"},
+			},
+		),
+	}
+}
+
 func (r *Redis) Set(ctx context.Context, key string, value any, ttl time.Duration) error {
-	return r.Client.Set(ctx, key, value, ttl).Err()
+	if r.ClientCluster != nil {
+		return r.ClientCluster.Set(ctx, key, value, ttl).Err()
+	} else {
+		return r.Client.Set(ctx, key, value, ttl).Err()
+	}
 }
 
 func (r *Redis) Get(ctx context.Context, key string) (string, error) {
-	return r.Client.Get(ctx, key).Result()
+	if r.ClientCluster != nil {
+		return r.ClientCluster.Get(ctx, key).Result()
+	} else {
+		return r.Client.Get(ctx, key).Result()
+	}
 }
