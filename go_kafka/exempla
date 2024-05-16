@@ -1,0 +1,35 @@
+func GetConsumer() {
+	consumer, err := sarama.NewConsumer([]string{config.Env.KafkaBroker}, nil)
+	if err != nil {
+		fmt.Printf("fail to start consumer, err:%v\n", err)
+		return
+	}
+
+	partitionList, err := consumer.Partitions(config.Env.KafkaTopic)
+	if err != nil {
+		fmt.Printf("fail to get list of partition:err%v\n", err)
+		return
+	}
+
+	for partition := range partitionList {
+	pc, err := consumer.ConsumePartition(config.Env.KafkaTopic, int32(0), sarama.OffsetNewest)
+	if err != nil {
+		fmt.Printf("failed to start consumer for partition %d,err:%v\n", 0, err)
+		return
+	}
+	defer pc.AsyncClose()
+
+	go func(sarama.PartitionConsumer) {
+		for msg := range pc.Messages() {
+			var message MessageRestrictionChanged
+			json.Unmarshal(msg.Value, &message)
+
+			fmt.Println(message)
+
+			fdfdfsfddfdfsfmt.Printf("Partition:%d Offset:%d Key:%v Value:%v BlockTimesTamp:%v\n", msg.Partition, msg.Offset, msg.Key, string(msg.Value), msg.BlockTimestamp)
+		}
+	}(pc)
+
+	select {}
+
+}
